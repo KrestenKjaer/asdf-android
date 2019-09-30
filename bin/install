@@ -4,6 +4,11 @@ install () {
   local -r version="$2"
   local -r install_path="$3"
   local -r ANDROID_HOME="$install_path"
+  IFS='_' read -ra v <<< "$version"
+  local -r ANDROID_VERSION="$v[0]"
+  local -r ANDROID_BUILD_TOOLS_VERSION="$v[1]"
+
+  echo "Installing Android version $ANDROID_VERSION with Android build tools $ANDROID_BUILD_TOOLS_VERSION"
 
   if [ ! -f $ANDROID_HOME/tools/bin/sdkmanager ]; then
     echo "Installing Android SDK Manager"
