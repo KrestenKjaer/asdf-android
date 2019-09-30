@@ -1,0 +1,36 @@
+
+install () {
+  local -r install_type="$1"
+  local -r version="$2"
+  local -r install_path="$3"
+  local -r ANDROID_HOME="$install_path"
+
+  if [ ! -f $ANDROID_HOME/tools/bin/sdkmanager ]; then
+    echo "Installing Android SDK Manager"
+    mkdir -p $ANDROID_HOME
+    curl -o $ANDROID_HOME/sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
+    unzip -qq $ANDROID_HOME/sdk.zip -d $ANDROID_HOME
+    mkdir -p $ANDROID_HOME/licenses
+    echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license"
+    yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
+  fi
+  $ANDROID_HOME/tools/bin/sdkmanager --update
+}
+
+get_arch () {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_filename () {
+  local -r version="$1"
+  local -r platform="$(get_arch)"
+  echo "liquibase-${version}-bin.tar.gz"
+}
+
+get_download_url () {
+  local -r version="$1"
+  local -r filename="$(get_filename "${version}")"
+  echo "https://github.com/liquibase/liquibase/releases/download/liquibase-parent-${version}/${filename}"
+}
+
+install "${ASDF_INSTALL_TYPE}" "${ASDF_INSTALL_VERSION}" "${ASDF_INSTALL_PATH}"

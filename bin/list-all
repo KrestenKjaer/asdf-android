@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+list_all () {
+  echo "19_19.0.1"
+  echo "19_19.0.2"
+}
+
+list_all
+
