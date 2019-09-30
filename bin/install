@@ -2,8 +2,8 @@
 install () {
   local -r install_type="$1"
   local -r version="$2"
-  local -r install_path="$3"
-  local -r ANDROID_HOME="$install_path/.."
+  local -r install_path="~/android_sdk"
+  local -r ANDROID_HOME="$install_path"
   local -r ANDROID_VERSION="$(echo $version | cut -d'_' -f1)"
   local -r ANDROID_BUILD_TOOLS_VERSION="$(echo $version | cut -d'_' -f2)"
 
@@ -20,22 +20,6 @@ install () {
   fi
   $ANDROID_HOME/tools/bin/sdkmanager --update
   $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" "platforms;android-${ANDROID_VERSION}" "platform-tools" > /dev/null
-}
-
-get_arch () {
-  uname | tr '[:upper:]' '[:lower:]'
-}
-
-get_filename () {
-  local -r version="$1"
-  local -r platform="$(get_arch)"
-  echo "liquibase-${version}-bin.tar.gz"
-}
-
-get_download_url () {
-  local -r version="$1"
-  local -r filename="$(get_filename "${version}")"
-  echo "https://github.com/liquibase/liquibase/releases/download/liquibase-parent-${version}/${filename}"
 }
 
 install "${ASDF_INSTALL_TYPE}" "${ASDF_INSTALL_VERSION}" "${ASDF_INSTALL_PATH}"
