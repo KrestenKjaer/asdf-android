@@ -3,7 +3,7 @@ install () {
   local -r install_type="$1"
   local -r version="$2"
   local -r install_path="$3"
-  local -r ANDROID_HOME="$install_path"
+  local -r ANDROID_HOME="$install_path/.."
   local -r ANDROID_VERSION="$(echo $version | cut -d'_' -f1)"
   local -r ANDROID_BUILD_TOOLS_VERSION="$(echo $version | cut -d'_' -f2)"
 
@@ -19,6 +19,7 @@ install () {
     yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
   fi
   $ANDROID_HOME/tools/bin/sdkmanager --update
+  $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" "platforms;android-${ANDROID_VERSION}" "platform-tools" > /dev/null
 }
 
 get_arch () {
