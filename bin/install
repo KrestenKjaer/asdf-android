@@ -1,4 +1,3 @@
-
 install () {
   local -r install_type="$1"
   local -r version="$2"
@@ -23,3 +22,4 @@ install () {
 }
 
 install "${ASDF_INSTALL_TYPE}" "${ASDF_INSTALL_VERSION}" "${ASDF_INSTALL_PATH}"
+
